@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';
@@ -9,7 +9,8 @@ function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
-    const [totalQuantityCounter, setTotalQuantityCounter] = useState(0);
+
+    const totalCartItems = useSelector(state => state.cart.totalCartItems);
     
     const plantsArray = [
         {
@@ -260,11 +261,6 @@ const handlePlantsClick = (e) => {
     }));
     };
 
-    useEffect(() => {
-        const total = Object.keys(addedToCart).length;
-        setTotalQuantityCounter(total);
-    }, [addedToCart]);
-
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -284,7 +280,7 @@ const handlePlantsClick = (e) => {
                 <div> <a href="#" onClick={(e)=>handlePlantsClick(e)} style={styleA}>Plants</a></div>
                 <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
                     <h1 className='cart'>
-                        <span>{totalQuantityCounter ?? 0}</span>
+                        <span>{totalCartItems ?? 0}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" 
                             viewBox="0 0 256 256" 
                             id="IconChangeColor" 
